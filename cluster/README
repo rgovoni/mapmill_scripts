@@ -1,0 +1,15 @@
+- get thumbnail images from server ~25min
+  time wget -nd -r -l 1 -A jpg -P img_scrape http://dev.femadata.com/capuploadhandler/files/22/thumbnails/
+
+- keep only thumbnails that have full resolution images ~35min
+  time python check_thumbs.py img_scrape
+
+- clean up irregular thumbnails ~10sec
+  time python clean.py img_scrape_check
+
+- generate features ~5min
+  time python feat_hsvbucket_cumul.py img_scrape_check_clean
+
+- make sets ~1m ea
+  time pypy cluster_kstrange.py img_scrape_check_clean img_scrape_check_clean_feat 100 s
+  time pypy cluster_kstrange.py img_scrape_check_clean img_scrape_check_clean_feat 100 d
